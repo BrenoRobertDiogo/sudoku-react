@@ -1,0 +1,18 @@
+.bloco {
+  width: 75px;
+  height: 75px;
+  background-color: brown;
+  color: white;
+  border: 1px solid black;
+}
+
+.observacoes {
+  font-size: 15px;
+  color: aliceblue;
+  font-weight: bold;
+
+}
+
+.numeroEscolhido {
+  font-size: 40px;
+}
