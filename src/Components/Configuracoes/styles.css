@@ -1,0 +1,49 @@
+ .botao-numero, .bloco-selecionado {
+  /* width: 90px; */
+  height: 90px;
+  border: 1px solid black;
+}
+.bloco-selecionado {
+  height: 90px;
+}
+.botao-numero {
+  width: 112px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.sessao-bloco-selecionado {
+  margin-left: 10px;
+}
+
+.config {
+  padding: 20px;
+  /* max-width: 300px; */
+}
+
+.botoes-config {
+  margin-left: 8px;
+}
+
+.btn-editar-ativo {
+  background-color: #F0AD4E;
+}
+
+.btn-observacao-ativo {
+  background-color: #5CB85C;
+}
+.btn-observacao-ativo, .btn-editar-ativo {
+  color: white;
+}
+.btn-editar-inativo {
+  border: 1px solid #F0AD4E;
+  color: #F0AD4E;
+}
+
+.btn-observacao-inativo {
+  border: 1px solid #5CB85C;
+  color: #5CB85C;
+}
+.btn-observacao-inativo, .btn-editar-inativo {
+  background-color:white;
+}
