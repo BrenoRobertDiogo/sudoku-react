@@ -7,6 +7,7 @@ export function Blocos() {
   const {
     contexto,
     handleClickBloco,
+    contexto: { BlocoSelecionado },
     contexto: { Blocos },
   } = useContext(GlobalContext);
   const [blocosSeparados, setBlocosSeparados] = useState({ lista: [] });
@@ -27,6 +28,7 @@ export function Blocos() {
         });
       }
     }
+    console.log(blocosSeparados.lista);
   }, []);
   return (
     <>
@@ -37,7 +39,26 @@ export function Blocos() {
             {listaBlocos.map((blocoAtual) => (
               <div key={blocoAtual.id} className="coluna-bloco">
                 {/* <div key={blocoAtual.id}>{blocoAtual.id}</div> */}
-                <Bloco onClickBloco={handleClickBloco} idBloco={blocoAtual.id} />
+                <Bloco
+                  onClickBloco={handleClickBloco}
+                  idBloco={blocoAtual.id}
+                  cor={
+                    contexto.BlocoSelecionado === undefined
+                      ? 'beige'
+                      : // Caso não seja o bloco selecionado
+                      blocoAtual.id !== contexto.BlocoSelecionado.id
+                      ? // Bloco de blocos
+                        listaBlocos.find((x) => x == blocoAtual) && listaBlocos.find((x) => x == BlocoSelecionado)
+                        ? '#a0ecff'
+                        : // ? 'beige'
+                        contexto.LinhaSelecionada.find((x) => x.id == blocoAtual.id) ||
+                          contexto.ColunaSelecionada.find((x) => x.id == blocoAtual.id)
+                        ? '#cbf4ff'
+                        : 'beige'
+                      : // Caso seja o bloco selecionado
+                        '#53dcff'
+                  }
+                />
               </div>
             ))}
           </div>

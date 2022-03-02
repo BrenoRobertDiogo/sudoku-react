@@ -18,8 +18,9 @@ function App() {
   const [contexto, setContexto] = useState(globalState);
   const handleClickBloco = (BlocoSelecionado) => {
     const LinhaSelecionada = PegaLinha(BlocoSelecionado, contexto.Blocos);
-    const ColunaSelecinonada = PegaColuna(BlocoSelecionado, contexto.Blocos);
-    setContexto({ ...contexto, BlocoSelecionado, LinhaSelecionada });
+    const ColunaSelecionada = PegaColuna(BlocoSelecionado, contexto.Blocos);
+    console.log(contexto.BlocoSelecionado);
+    setContexto({ ...contexto, BlocoSelecionado, LinhaSelecionada, ColunaSelecionada });
   };
 
   return (

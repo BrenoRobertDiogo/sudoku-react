@@ -37,6 +37,9 @@ export function PegaLinha(Bloco, Blocos) {
 
 export function PegaColuna(Bloco, Blocos) {
   const primeiroColuna = achaNumero(Bloco.id);
+  console.log(primeiroColuna);
+
+  return [];
 }
 
 function achaNumero(idInicial, idAtual = idInicial, f = 0) {

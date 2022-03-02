@@ -3,20 +3,12 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../App';
 import './styles.css';
 
-export function Bloco({ onClickBloco = undefined, idBloco, mostrando = false }) {
+export function Bloco({ idBloco, cor = 'beige', onClickBloco = undefined, mostrando = false }) {
   const observacoes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const { contexto } = useContext(GlobalContext);
   const configInicial = contexto.Blocos[idBloco];
   const numeroBloco = !configInicial.numDefault ? configInicial.NumEscolhido : configInicial.numDefault;
-  const corFundo =
-    contexto.BlocoSelecionado === undefined
-      ? 'beige'
-      : configInicial.id !== contexto.BlocoSelecionado.id
-      ? // ? 'beige'
-        contexto.ColunaSelecionada.includes(configInicial.id) || contexto.ColunaSelecionada.includes(configInicial.id)
-        ? '#cbf4ff'
-        : 'beige'
-      : 'rgb(137, 231, 255)';
+
   // const numeroBloco = Math.floor(Math.random() * 10);
 
   return (
@@ -25,7 +17,7 @@ export function Bloco({ onClickBloco = undefined, idBloco, mostrando = false }) 
         className="bloco"
         style={{
           cursor: mostrando ? 'not-allowed' : 'pointer',
-          backgroundColor: corFundo,
+          backgroundColor: cor,
         }}
         onClick={() => (onClickBloco ? onClickBloco(configInicial) : '')}
       >
@@ -63,4 +55,5 @@ Bloco.propTypes = {
   onClickBloco: P.func,
   idBloco: P.number.isRequired,
   mostrando: P.bool,
+  cor: P.string,
 };
