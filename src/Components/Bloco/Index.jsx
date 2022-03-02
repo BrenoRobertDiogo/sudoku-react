@@ -12,7 +12,10 @@ export function Bloco({ onClickBloco = undefined, idBloco, mostrando = false }) 
     contexto.BlocoSelecionado === undefined
       ? 'beige'
       : configInicial.id !== contexto.BlocoSelecionado.id
-      ? 'beige'
+      ? // ? 'beige'
+        contexto.ColunaSelecionada.includes(configInicial.id) || contexto.ColunaSelecionada.includes(configInicial.id)
+        ? '#cbf4ff'
+        : 'beige'
       : 'rgb(137, 231, 255)';
   // const numeroBloco = Math.floor(Math.random() * 10);
 
@@ -21,33 +24,25 @@ export function Bloco({ onClickBloco = undefined, idBloco, mostrando = false }) 
       <div
         className="bloco"
         style={{
-          // width: mostrando ? '100%' : '100%',
-          // height: mostrando ? '100%' : '100%',
           cursor: mostrando ? 'not-allowed' : 'pointer',
           backgroundColor: corFundo,
         }}
         onClick={() => (onClickBloco ? onClickBloco(configInicial) : '')}
       >
-        <div className="row numero-escolhido">
-          {/* <div className="col"></div>
-          <div className="col">{numeroBloco}</div>
-          <div className="col"></div> */}
-          {observacoes.map((serAtual) => {
-            return (
-              <div key={serAtual} className="col-4 observacao">
-                {serAtual == 5 && <h1>{numeroBloco}</h1>}
-              </div>
-            );
-          })}
-        </div>
+        {numeroBloco != undefined && (
+          <div className="row numero-escolhido">
+            {observacoes.map((serAtual) => {
+              return (
+                <div key={serAtual} className="col-4 " style={{ visibility: serAtual == 5 ? 'visible' : 'hidden' }}>
+                  {numeroBloco}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {numeroBloco == undefined && (
-          <div
-            className="row observacoes"
-            // style={{
-            // visibility: observacoes.includes(numeroBloco) ? 'hidden' : 'visible',
-            // display: numeroBloco ? 'none' : '',
-            // }}
-          >
+          <div className="row observacoes">
             {observacoes.map((serAtual) => (
               <div
                 key={serAtual}

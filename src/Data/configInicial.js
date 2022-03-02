@@ -26,7 +26,7 @@ export const blocosUsar = [
   {
     id: 4,
     NumEscolhido: undefined,
-    numDefault: undefined,
+    numDefault: 4,
     sugestoes: [false, false, false, false, false, false, false, false, false],
   },
   {

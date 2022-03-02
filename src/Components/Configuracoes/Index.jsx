@@ -54,20 +54,9 @@ export function Configuracoes() {
   const novaObservacao = (observacao) => {
     if (!BlocoSelecionado) return;
     novaEdicao(undefined);
-    const BlocosT = contexto.Blocos;
     var novaLista = BlocoSelecionado.sugestoes;
-    console.log(novaLista);
     novaLista[observacao] = !novaLista[observacao];
     setContexto({ ...contexto, BlocoSelecionado: { ...BlocoSelecionado, sugestoes: novaLista } });
-    /* setContexto({
-      ...contexto,
-      Blocos: BlocosT.map((bloco) => {
-        console.log(bloco);
-        return bloco.id == BlocoSelecionado.id ? novaLista : { ...bloco };
-      }),
-    }); */
-
-    console.log('asdasdasdasdasdasd');
   };
 
   return (

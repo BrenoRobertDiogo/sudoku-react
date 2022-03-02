@@ -11,13 +11,6 @@ export function Blocos() {
   } = useContext(GlobalContext);
   const [blocosSeparados, setBlocosSeparados] = useState({ lista: [] });
 
-  /* for (let i = 0; i < Blocos.length; i + 9) {
-    const element = Blocos[i];
-    const novoValor = Blocos.slice(i, i + 8);
-    setBlocosSeparados({ ...blocosSeparados, novoValor });
-    console.log('teste1');
-    console.log('teste2');
-  } */
   useEffect(() => {
     // const novoValor = Blocos.slice(0, 8);
     // setBlocosSeparados({ ...blocosSeparados, novoValor });
@@ -27,8 +20,6 @@ export function Blocos() {
       if (i % 9 == 0 && lista.length <= 9) {
         lista = blocosSeparados.lista;
         lista.push(Blocos.slice(i - 9, i));
-        console.log(i - 9);
-        console.log(lista);
         // lista.shift();
         lista = lista.filter((atual) => atual.length != 0);
         setBlocosSeparados((BlocosSeparados) => {
@@ -36,10 +27,7 @@ export function Blocos() {
         });
       }
     }
-
-    console.log(blocosSeparados);
   }, []);
-  console.log(blocosSeparados);
   return (
     <>
       <div className="separacoes-blocos">
