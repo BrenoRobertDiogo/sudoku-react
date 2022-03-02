@@ -36,10 +36,26 @@ export function PegaLinha(Bloco, Blocos) {
 }
 
 export function PegaColuna(Bloco, Blocos) {
+  console.group();
   const primeiroColuna = achaNumero(Bloco.id);
-  console.log(primeiroColuna);
-
-  return [];
+  const pulaProximo = [primeiroColuna + 6, primeiroColuna + 27 + 6, primeiroColuna + 27 * 2 + 6];
+  console.log(pulaProximo);
+  const retornar = [];
+  console.log(primeiroColuna + 27 * 2 + 2);
+  for (let i = primeiroColuna; i <= primeiroColuna + 27 * 2 + 6; i = i + 3) {
+    const element = Blocos[i];
+    retornar.push(element);
+    if (element.id == pulaProximo[pulaProximo.length - 1]) {
+      console.log('Cabo com: ' + pulaProximo[pulaProximo.length - 1]);
+      break;
+    }
+    if (pulaProximo.includes(element.id)) {
+      i += 27 - 3 * 3; // 3 blocos
+    }
+  }
+  console.log(retornar);
+  console.groupEnd();
+  return retornar;
 }
 
 function achaNumero(idInicial, idAtual = idInicial, f = 0) {
