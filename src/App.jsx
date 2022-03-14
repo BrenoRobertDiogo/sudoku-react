@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import './App.css';
 import { Blocos } from './Components/Blocos/Index';
 import { Configuracoes } from './Components/Configuracoes/Index';
 import { blocosUsar } from './Data/configInicial';
-import { PegaColuna, PegaLinha } from './utils/FuncoesBlocos';
+import { PegaColuna, PegaLinha, PegaRegiao } from './utils/FuncoesBlocos';
 
 export const GlobalContext = React.createContext();
 export const globalState = {
   BlocoSelecionado: undefined,
+  RegiaoSelecionada: [],
   LinhaSelecionada: [],
   ColunaSelecionada: [],
   Blocos: blocosUsar,
@@ -17,13 +19,24 @@ export const globalState = {
 function App() {
   const [contexto, setContexto] = useState(globalState);
   const handleClickBloco = (BlocoSelecionado) => {
+    console.log(BlocoSelecionado);
     const LinhaSelecionada = PegaLinha(BlocoSelecionado, contexto.Blocos);
     const ColunaSelecionada = PegaColuna(BlocoSelecionado, contexto.Blocos);
-    setContexto({ ...contexto, BlocoSelecionado, LinhaSelecionada, ColunaSelecionada });
+    const RegiaoSelecionada = PegaRegiao(BlocoSelecionado, contexto.Blocos);
 
+    setContexto({ ...contexto, BlocoSelecionado, LinhaSelecionada, ColunaSelecionada, RegiaoSelecionada });
     console.log(contexto);
+    // console.log(contexto);
   };
 
+  if (contexto.Blocos.find((bloco) => bloco.numDefault == undefined || bloco.NumEscolhido == undefined) == undefined) {
+    console.log(contexto.Blocos.find((bloco) => bloco == undefined));
+    return (
+      <>
+        <h1>Você terminou o jogo ;)</h1>
+      </>
+    );
+  }
   return (
     <>
       <GlobalContext.Provider value={{ contexto, setContexto, handleClickBloco }}>
@@ -38,6 +51,7 @@ function App() {
           </div>
         </div>
       </GlobalContext.Provider>
+      <Toaster position="bottom-center" reverseOrder={true} />
     </>
   );
 }

@@ -8,6 +8,12 @@ export function Bloco({ idBloco, cor = 'beige', onClickBloco = undefined, mostra
   const { contexto } = useContext(GlobalContext);
   const configInicial = contexto.Blocos[idBloco];
   const numeroBloco = !configInicial.numDefault ? configInicial.NumEscolhido : configInicial.numDefault;
+  const corUsar =
+    contexto.RegiaoSelecionada != undefined
+      ? contexto.RegiaoSelecionada.find((x) => x.id == idBloco && x.id != contexto.BlocoSelecionado.id)
+        ? '#a0ecff'
+        : cor
+      : cor;
 
   // const numeroBloco = Math.floor(Math.random() * 10);
 
@@ -17,7 +23,7 @@ export function Bloco({ idBloco, cor = 'beige', onClickBloco = undefined, mostra
         className="bloco"
         style={{
           cursor: mostrando ? 'not-allowed' : 'pointer',
-          backgroundColor: cor,
+          backgroundColor: corUsar,
         }}
         onClick={() => (onClickBloco ? onClickBloco(configInicial) : '')}
       >

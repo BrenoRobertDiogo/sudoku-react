@@ -1,5 +1,6 @@
+const inicioLinhas = [0, 3, 6, 27, 30, 33, 54, 57, 60];
+
 function PegaInicioLinha(Bloco, Blocos) {
-  const inicioLinhas = [0, 3, 6, 27, 30, 33, 54, 57, 60];
   var inicioLinha = {};
   // eslint-disable-next-line for-direction
   for (let i = Bloco.id; i >= 0; i--) {
@@ -36,25 +37,19 @@ export function PegaLinha(Bloco, Blocos) {
 }
 
 export function PegaColuna(Bloco, Blocos) {
-  console.group();
   const primeiroColuna = achaNumero(Bloco.id);
   const pulaProximo = [primeiroColuna + 6, primeiroColuna + 27 + 6, primeiroColuna + 27 * 2 + 6];
-  console.log(pulaProximo);
   const retornar = [];
-  console.log(primeiroColuna + 27 * 2 + 2);
   for (let i = primeiroColuna; i <= primeiroColuna + 27 * 2 + 6; i = i + 3) {
     const element = Blocos[i];
     retornar.push(element);
     if (element.id == pulaProximo[pulaProximo.length - 1]) {
-      console.log('Cabo com: ' + pulaProximo[pulaProximo.length - 1]);
       break;
     }
     if (pulaProximo.includes(element.id)) {
       i += 27 - 3 * 3; // 3 blocos
     }
   }
-  console.log(retornar);
-  console.groupEnd();
   return retornar;
 }
 
@@ -74,4 +69,39 @@ function achaNumero(idInicial, idAtual = idInicial, f = 0) {
   } else {
     return achaNumero(idInicial, idAtual - 27);
   }
+}
+
+const PegaIdRegiao = (qtdBlocos, Blocos, Bloco) => {
+  const INICIO_BLOCOS = [
+    0,
+    qtdBlocos * 1,
+    qtdBlocos * 2,
+    qtdBlocos * 3,
+    qtdBlocos * 4,
+    qtdBlocos * 5,
+    qtdBlocos * 6,
+    qtdBlocos * 7,
+    qtdBlocos * 8,
+  ];
+  var idAtual = Bloco.id;
+  while (!INICIO_BLOCOS.includes(idAtual)) {
+    if (INICIO_BLOCOS.includes(idAtual)) {
+      break;
+    }
+    idAtual -= 1;
+  }
+  var listaRetornar = Blocos.slice(idAtual, idAtual + qtdBlocos);
+  return listaRetornar;
+};
+
+export function PegaRegiao(Bloco, Blocos, qtdBlocos = 9) {
+  //TODO: Fazer na mão essa lógica de pegar a região
+  return PegaIdRegiao(qtdBlocos, Blocos, Bloco);
+  // console.log(teste);
+  // LEIA O COMENTARIO ACIMA
+  /* return Regioes.find((antesRegiao) => {
+    return antesRegiao.find((regiao) => {
+      return regiao.id == Bloco.id;
+    });
+  }); */
 }

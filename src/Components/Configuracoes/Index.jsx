@@ -1,11 +1,12 @@
 import { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { GlobalContext } from '../../App';
 import { Bloco } from '../Bloco/Index';
 import './styles.css';
 export function Configuracoes() {
   const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const {
-    contexto: { BlocoSelecionado },
+    contexto: { BlocoSelecionado, LinhaSelecionada, ColunaSelecionada, RegiaoSelecionada, Blocos },
     contexto,
     setContexto,
   } = useContext(GlobalContext);
@@ -26,37 +27,86 @@ export function Configuracoes() {
   };
 
   const handleClickResetButton = () => {
-    setContexto({ ...contexto, BlocoSelecionado: undefined });
+    setContexto({
+      ...contexto,
+      BlocoSelecionado: undefined,
+      RegiaoSelecionada: undefined,
+      LinhaSelecionada: undefined,
+      ColunaSelecionada: undefined,
+    });
   };
 
   const handleChangeModo = (Modo) => {
     setContexto({ ...contexto, Modo });
   };
 
+  function atualizaRegioes(edicao) {
+    /* setContexto({
+      ...contexto,
+      Regioes: Regioes.map((AntesRegiao) => {
+        // console.log(AntesRegiao);
+        return AntesRegiao.map((regiao) => {
+          const BLOCO_ACHADO = Blocos.find((bloco) => bloco.id == regiao.id);
+          return BLOCO_ACHADO ? BLOCO_ACHADO : regiao;
+        });
+      }),
+    }); */
+    const RegiaoSelecionadaAlterar = RegiaoSelecionada.map((regiao) => {
+      // console.log(regiao);
+      return regiao.id == BlocoSelecionado.id ? { ...regiao, NumEscolhido: edicao } : regiao;
+    });
+    setContexto({ ...contexto, RegiaoSelecionada: RegiaoSelecionadaAlterar });
+  }
+
   const novaEdicao = (edicao) => {
+    // atualizaRegioes();
     if (!BlocoSelecionado) return;
+    // console.group();
+    // console.log(contexto);
 
     // const idBlocoSelecionado =
     const novoBloco = { ...BlocoSelecionado, NumEscolhido: edicao };
-    const BlocosT = contexto.Blocos;
+    const BLOCOS_DO_CONTEXTO = contexto.Blocos;
     setContexto({
       ...contexto,
       BlocoSelecionado: { ...novoBloco },
     });
     if (edicao == undefined) return;
+    if (LinhaSelecionada.find((linha) => linha.NumEscolhido == edicao || linha.numDefault == edicao)) {
+      toast.error('Linha já tem esse número');
+      return;
+    } else if (ColunaSelecionada.find((coluna) => coluna.NumEscolhido == edicao || coluna.numDefault == edicao)) {
+      toast.error('Coluna já tem esse número');
+      return;
+    } else if (RegiaoSelecionada.find((regiao) => regiao.NumEscolhido == edicao || regiao.numDefault == edicao)) {
+      toast.error('Região já tem esse número');
+      return;
+    }
+    // console.group();
+    const RegiaoSelecionadaAlterar = RegiaoSelecionada.map((regiao) => {
+      // console.log(regiao);
+      return regiao.id == BlocoSelecionado.id ? { ...regiao, NumEscolhido: edicao } : regiao;
+    });
     setContexto({
       ...contexto,
-      Blocos: BlocosT.map((bloco) => {
-        return bloco.id == BlocoSelecionado.id ? { ...bloco, NumEscolhido: edicao } : { ...bloco };
-      }),
+      Blocos: BLOCOS_DO_CONTEXTO.map((bloco) =>
+        bloco.id == BlocoSelecionado.id ? { ...bloco, NumEscolhido: edicao } : { ...bloco },
+      ),
+      RegiaoSelecionada: RegiaoSelecionadaAlterar,
     });
+    console.log(contexto);
+    // console.groupEnd();
+    // console.groupEnd();
+    // atualizaRegioes(edicao);
   };
   const novaObservacao = (observacao) => {
     if (!BlocoSelecionado) return;
+    atualizaRegioes();
     novaEdicao(undefined);
     var novaLista = BlocoSelecionado.sugestoes;
     novaLista[observacao] = !novaLista[observacao];
     setContexto({ ...contexto, BlocoSelecionado: { ...BlocoSelecionado, sugestoes: novaLista } });
+    atualizaRegioes();
   };
 
   return (

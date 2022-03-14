@@ -9,6 +9,7 @@ export function Blocos() {
     handleClickBloco,
     contexto: { BlocoSelecionado },
     contexto: { Blocos },
+    setContexto,
   } = useContext(GlobalContext);
   const [blocosSeparados, setBlocosSeparados] = useState({ lista: [] });
 
@@ -23,13 +24,33 @@ export function Blocos() {
         lista.push(Blocos.slice(i - 9, i));
         // lista.shift();
         lista = lista.filter((atual) => atual.length != 0);
-        setBlocosSeparados((BlocosSeparados) => {
+        setBlocosSeparados((_) => {
           return { lista };
         });
       }
     }
-    console.log(blocosSeparados.lista);
+    /* const Regioes = lista;
+
+    setContexto({ ...contexto, Regioes }); */
   }, []);
+
+  const defineCor = (blocoAtual, listaBlocos) => {
+    return contexto.BlocoSelecionado === undefined
+      ? 'beige'
+      : // Caso não seja o bloco selecionado
+      blocoAtual.id !== contexto.BlocoSelecionado.id
+      ? // Bloco de blocos
+        listaBlocos.find((x) => x == blocoAtual) && listaBlocos.find((x) => x == BlocoSelecionado)
+        ? '#a0ecff'
+        : // ? 'beige'
+        contexto.LinhaSelecionada.find((x) => x.id == blocoAtual.id) ||
+          contexto.ColunaSelecionada.find((x) => x.id == blocoAtual.id)
+        ? '#cbf4ff'
+        : 'beige'
+      : // Caso seja o bloco selecionado
+        '#53dcff';
+  };
+
   return (
     <>
       <div className="separacoes-blocos">
@@ -42,22 +63,7 @@ export function Blocos() {
                 <Bloco
                   onClickBloco={handleClickBloco}
                   idBloco={blocoAtual.id}
-                  cor={
-                    contexto.BlocoSelecionado === undefined
-                      ? 'beige'
-                      : // Caso não seja o bloco selecionado
-                      blocoAtual.id !== contexto.BlocoSelecionado.id
-                      ? // Bloco de blocos
-                        listaBlocos.find((x) => x == blocoAtual) && listaBlocos.find((x) => x == BlocoSelecionado)
-                        ? '#a0ecff'
-                        : // ? 'beige'
-                        contexto.LinhaSelecionada.find((x) => x.id == blocoAtual.id) ||
-                          contexto.ColunaSelecionada.find((x) => x.id == blocoAtual.id)
-                        ? '#cbf4ff'
-                        : 'beige'
-                      : // Caso seja o bloco selecionado
-                        '#53dcff'
-                  }
+                  cor={defineCor(blocoAtual, listaBlocos)}
                 />
               </div>
             ))}
