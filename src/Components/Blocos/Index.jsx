@@ -35,20 +35,59 @@ export function Blocos() {
   }, []);
 
   const defineCor = (blocoAtual, listaBlocos) => {
-    return contexto.BlocoSelecionado === undefined
-      ? 'beige'
+    var COMPARACAO = false;
+    if (contexto.BlocoSelecionado != undefined) {
+      if (contexto.BlocoSelecionado.NumEscolhido != undefined) {
+        COMPARACAO = [blocoAtual.NumEscolhido, blocoAtual.numDefault].includes(contexto.BlocoSelecionado.NumEscolhido);
+      } else {
+        COMPARACAO = [blocoAtual.NumEscolhido, blocoAtual.numDefault].includes(contexto.BlocoSelecionado.numDefault);
+      }
+    }
+    if (
+      contexto.BlocoSelecionado === undefined &&
+      [blocoAtual.numDefault, blocoAtual.NumEscolhido].filter((num) => num == undefined).length == 1
+    ) {
+      return '#ececc4';
+    } else if (blocoAtual.id !== contexto.BlocoSelecionado.id) {
+      if (listaBlocos.find((x) => x == blocoAtual) && listaBlocos.find((x) => x == BlocoSelecionado)) {
+        return '#ececc4';
+      } else if (
+        contexto.LinhaSelecionada.find((x) => x.id == blocoAtual.id) ||
+        contexto.ColunaSelecionada.find((x) => x.id == blocoAtual.id)
+      ) {
+        return '#ececc4';
+      } else if (COMPARACAO) {
+        /* [blocoAtual.numDefault, blocoAtual.NumEscolhido].some([
+          contexto.BlocoSelecionado.NumEscolhido,
+          contexto.BlocoSelecionado.numDefault,
+        ]) &&
+        !(blocoAtual.numDefault || blocoAtual.NumEscolhido) */
+
+        return 'red';
+      } else {
+        return 'beige';
+      }
+    }
+    return '#53dcff';
+    /* return contexto.BlocoSelecionado === undefined
+      ? '#f5f5dc'
       : // Caso não seja o bloco selecionado
       blocoAtual.id !== contexto.BlocoSelecionado.id
       ? // Bloco de blocos
         listaBlocos.find((x) => x == blocoAtual) && listaBlocos.find((x) => x == BlocoSelecionado)
         ? '#a0ecff'
-        : // ? 'beige'
+        : // ? '#f5f5dc'
         contexto.LinhaSelecionada.find((x) => x.id == blocoAtual.id) ||
           contexto.ColunaSelecionada.find((x) => x.id == blocoAtual.id)
         ? '#cbf4ff'
+        : [blocoAtual.numDefault, blocoAtual.NumEscolhido].some([
+            contexto.BlocoSelecionado.NumEscolhido,
+            contexto.BlocoSelecionado.numDefault,
+          ]) && !(blocoAtual.numDefault || blocoAtual.NumEscolhido)
+        ? 'red'
         : 'beige'
       : // Caso seja o bloco selecionado
-        '#53dcff';
+        '#53dcff'; */
   };
 
   return (
